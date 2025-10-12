@@ -1,5 +1,6 @@
 print("Welcome to the Grade Registry Program..")
 continue_option = 'y'
+students=[] #This makes the list start as empty, and the append near the bottom will add the inputs here after the loop ends
 while continue_option == 'y':
     student_name = input("Please enter the name of the student you would like to enter: ")
     print("Please enter numbers, one at a time. Input -1 to end user inputs")
@@ -12,11 +13,10 @@ while continue_option == 'y':
         if num == -1:
             break
         count += 1
-
-    gpa =[student_name, sum/count]
-    # print(student_name, sum/count)
+        gpa = sum/count
+    students.append({student_name, gpa})
     continue_option = input("would you like to enter another student? (Y)es/(N)o " )
-print(gpa)
+print(students)
 print("Thanks for using the program")
 
 '''
