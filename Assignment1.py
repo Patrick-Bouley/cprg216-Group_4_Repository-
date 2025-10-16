@@ -1,24 +1,35 @@
-print("Welcome to the Grade Registry Program..")
-continue_option = 'y'
-students=[] #This makes the list start as empty, and the append near the bottom will add the inputs here after the loop ends
-while continue_option == 'y':
-    student_name = input("Please enter the name of the student you would like to enter: ")
-    print("Please enter numbers, one at a time. Input -1 to end user inputs")
-    sum = 0
-    num = 0
-    count = 0
-    while num>-1:
-        sum += num
-        num = float(input())
-        if num == -1:
-            break
-        count += 1
-        gpa = sum/count
-    students.append({student_name, gpa})
-    continue_option = input("would you like to enter another student? (Y)es/(N)o " )
-print(students)
-print("Thanks for using the program")
+#Grade Registry Program.
+#This program stores students name and their accumulative GPA using a dictionary.
+print("Welcome to the Grade Registry Program")
+students = {} #Dictionary to store student names and GPA's.
+add_student = input("Would you like to add a new student ? y(yes),n(no)\n")
+#Main loop to add students until the user decides to stop.
+while add_student != "no" or add_student != "n": #Check if user wants to add a student.
+    if add_student == "yes" or add_student == "y":
+        name = input("Enter the student's name:\n")
+        gpas = [] #List to store the student's GPA's.
+        gpa = float(input("Enter the student's GPA for each subject. Enter -1 to stop entering GPA.\n"))
+        #GPA input loop.
+        while gpa != -1:
+            gpas.append(gpa)
+            gpa = float(input())
+        #Compute average GPA or set to 0 if no GPA entered.
+        if len(gpas)>0:
+            average = sum(gpas)/len(gpas)
+        else:
+            average = 0
+        students[name] = average #Store the student's name and GPA.
+        add_student = input("Would you like to add a new student ? y(yes),n(no)\n")
+    #If user wants to stop.
+    elif add_student == "no" or add_student == "n":
+        break
+    #If user enters something invalid.
+    else:
+        print("Incorrect input, please enter y(yes) or n(no).")
+        add_student = input("Would you like to add a new student ? y(yes),n(no)\n")
+#Print the list of students and their average GPAs.
+print("This is the list of students in the system, and their corresponding accumulative GPA.")
+for name in students:
+    print(name, round(students[name], 2))
+    print("Thanks for using this program !")
 
-'''
-Im not sure if this is even the right direction, It was me messing around
-'''
