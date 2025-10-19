@@ -2,8 +2,7 @@
 #This program stores students name and their accumulative GPA using a dictionary.
 print("Welcome to the Grade Registry Program")
 students = {} #Dictionary to store student names and GPA's.
-add_student_raw = input("Would you like to add a new student ? y(yes),n(no)\n")
-add_student = (add_student_raw.lower()) # this function changes all the user inputs into lowercase for error reduction
+add_student = input("Would you like to add a new student ? y(yes),n(no)\n").lower() #.lower is used to prevent case errors 
 #Main loop to add students until the user decides to stop.
 while add_student != "no" or add_student != "n": #Check if user wants to add a student.
     if add_student == "yes" or add_student == "y":
@@ -20,9 +19,7 @@ while add_student != "no" or add_student != "n": #Check if user wants to add a s
         else:
             average = 0
         students[name] = average #Store the student's name and GPA.
-        add_student_raw = input("Would you like to add a new student ? y(yes),n(no)\n")
-        add_student = (add_student_raw.lower()) 
-    #If user wants to stop.
+        add_student = input("Would you like to add a new student ? y(yes),n(no)\n").lower()
     elif add_student == "no" or add_student == "n":
         break
     #If user enters something invalid.
@@ -32,6 +29,5 @@ while add_student != "no" or add_student != "n": #Check if user wants to add a s
 #Print the list of students and their average GPAs.
 print("This is the list of students in the system, and their corresponding accumulative GPA.")
 for name in students:
-    print(name, round(students[name], 2))
-    print("Thanks for using this program !")
-
+    print(name, f"{students[name]:.2f}")
+print("Thanks for using this program !")
