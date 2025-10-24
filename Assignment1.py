@@ -25,7 +25,7 @@ while add_student != "no" or add_student != "n": #Check if user wants to add a s
     #If user enters something invalid.
     else:
         print("Incorrect input, please enter y(yes) or n(no).")
-        add_student = input("Would you like to add a new student ? y(yes),n(no)\n")
+        add_student = input("Would you like to add a new student ? y(yes),n(no)\n").lower()
 #Print the list of students and their average GPAs.
 print("This is the list of students in the system, and their corresponding accumulative GPA.")
 for name in students:
