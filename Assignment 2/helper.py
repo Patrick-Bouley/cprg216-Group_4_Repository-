@@ -1,8 +1,22 @@
-id = ()
-name = ()
-gpa = ()
-semester = ()
-students = [id, name, gpa, semester]
+id = [name, gpa, semester]
+
+
+# students = {
+#     # id:[name,gpa,semester] format of how the dictionary should be 
+#     1001:["Jimmy",3.5,2]
+# }
+key = int(input("input a id for a student:\n"))
+x=3
+valuelist = []
+print("enter a name, gpa, then semester:")
+while x>0:
+    x -= 1
+    y = input("input:")
+    valuelist.append(y)
+students = {key: valuelist}
+print(students)
+    
+
 
 def show_menu(): #Must take no arguments, just prints the main menu
     print("welcome to the software")
@@ -10,9 +24,10 @@ def show_menu(): #Must take no arguments, just prints the main menu
     print("-Add a new student: 1")
     print("-Modify an existing student: 2")
     print("-Remove a student: 3")
-    print("-Add a new student: 4")
+    print("-Search for a student: 4")
     print("-Exit")
-    option = (input())
+    option = int(input())
+    return option
     # This is just what he did in the example, I dont know if this is correct
     
 # Add, Remove, Edit_name, Search, all sound like they need to bve their own seperate menues with dialog to direct what the person needs to do, 
@@ -33,14 +48,15 @@ def add():
 
 def edit_name():
     input("Enter the ID of the student. Enter -1 to return to the previous menu./n")
-    for id in students:
+    for id in students:for id in students:
+        del students[name, id, gpa, semester]
         students[name] = input("Enter the name of the new Student:/n")
     # Takes the Students name from the List and student ID as input, and the new name to be changed with the one selected 
    
-def remove():
-    input("Enter the ID of the student that you want to remove from the students' registry./n")
-    for id in students:
-        del students[name, id, gpa, semester]
+def remove(students):
+    id = input("Enter the ID of the student that you want to remove from the students' registry./n")
+    
+        students.pop(id)
     # Takes the students and id lists as parameters, and removes all info of that student from the lists that match the name/id
 
 def search(id):
