@@ -2,7 +2,7 @@ id = []
 name = []
 gpa = []
 semester = []
-students = [id, name, gpa, semester]
+students = [id, name, gpa, semester] 
 
 def show_menu(): #Must take no arguments, just prints the main menu
     print()
@@ -34,7 +34,7 @@ def add():
         print("Student added.")
         print(students)
 
-        add_another_student = print("Do you want to add another student ? y(yes)/n(no)")
+        add_another_student = input("Do you want to add another student ? y(yes)/n(no)")
         if add_another_student not in ["y"or"yes"]:
             break
     # I assume we will have to append this new name into the list of students, while making sure they arent already added
