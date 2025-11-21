@@ -28,8 +28,8 @@ def run_add(): #- Removed students (dictionary) argument as it has been made a g
         if add in ('y', 'yes'):
             continue
         else:
-            main_menu()
             break
+    main_menu()
             
     
 
@@ -54,7 +54,7 @@ def run_edit(): #- Removed students (dictionary) argument as it has been made a 
            continue
         else:  
             break
-           
+    main_menu()
 
 def run_remove():   #- Removed students (dictionary) argument as it has been made a global variable
     while True:
@@ -64,6 +64,7 @@ def run_remove():   #- Removed students (dictionary) argument as it has been mad
             continue
         else:
             break
+    main_menu()
         
 
 

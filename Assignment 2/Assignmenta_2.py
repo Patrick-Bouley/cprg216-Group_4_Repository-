@@ -5,8 +5,8 @@ from modified_test import *
 operate = True 
 while operate == True:
     main_menu()
-    operate = input("Do you want to keep using the program? y(yes)/n(no):\n")
-    if operate == "yes" or operate == "y":
+    operate = input("Do you want to exit the program? y(yes)/n(no):\n").lower()
+    if operate == "no" or operate == "n":
         operate = True
     else:
         break
