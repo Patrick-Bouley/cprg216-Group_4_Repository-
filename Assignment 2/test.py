@@ -2,41 +2,44 @@ global students
 students = {}
 id = []
 
-def main_menu(): # if main menu has the loops in it, can we also make it have the main continue option for using the whole program? 
-
-
-    print("Welcome to the students record program What would you like to do today?\n-Find a student? \t\t\t\tenter 1\n-edit a student's info using student ID? \tenter 2 \n-Add a new student? \t\t\t\tenter 3 \n-Remove a student? \t\t\t\tenter 4 ")
+def main_menu():
+    print("Welcome to the students record program.\nWhat would you like to do today?\n-Find a student? \t\t\t\tenter 1\n-Edit a student's name using student ID? \tenter 2 \n-Add a new student? \t\t\t\tenter 3 \n-Remove a student? \t\t\t\tenter 4 \n-Exit? \t\t\t\t\t\tenter -1")
     choice = input(": ")
     if choice == "1":
         run_search()
     elif choice == '2':
         run_edit()
     elif choice == '3':
-        run_add()
+        run_add(students)
     elif choice == '4':
         run_remove()
+    elif choice == '-1':
+        print("Exiting, thanks for using the program.")
     else:
-        print("Thanks for using the program")
-    
+        print("Invalid input, please try again.")
+        main_menu()
 
 def run_add(): #- Removed students (dictionary) argument as it has been made a global variable
-    add = 'yes'
-    while add == 'yes' or add == 'y':
-        add_student()
-        add = input("Do you want to add a new student?y(yes)/n(no)").lower()
-        if add != "y" or add != "yes":
+    while True:
+        add_student(students)
+        add = input("Do you want to add a new student?y(yes)/n(no)").lower().strip()
+        if add in ('y', 'yes'):
+            continue
+        else:
+            # main_menu()
             break
-    main_menu()
 
 def run_search(): # - Removed students (dictionary) argument as it has been made a global variable
-    find = 1
-    while find == 1:
-        find = int(input("Enter the ID of the student, Enter -1 to return to previous menu\n"))
-        if find != -1:
-            search(find)
-        else:
+    while True:
+        id_str = input("Enter the student ID you want to search for, enter -1 to return to the main menu: ")
+        if id_str == '-1':
+            main_menu()
             break
-    main_menu()
+        if not id_str.isdigit():
+            print("Invalid input. Please enter a valid student ID.")
+            continue
+        id = int(id_str)
+        search(id)
         
 
 def run_edit(): #- Removed students (dictionary) argument as it has been made a global variable
@@ -47,7 +50,7 @@ def run_edit(): #- Removed students (dictionary) argument as it has been made a 
             edit_name(edit)
         else:
             break
-    main_menu()
+    # main_menu()
     
 
 def run_remove():   #- Removed students (dictionary) argument as it has been made a global variable
@@ -57,38 +60,39 @@ def run_remove():   #- Removed students (dictionary) argument as it has been mad
         delete = input("Do you want to remove more students?y(yes)/n(no)").lower()
         if delete != "y" or delete != "yes":
             break
-    main_menu()
+    # main_menu()
     
-
-
-def add_student(): #Adds he student information to a list - Removed students (dictionary) argument as it has been made a global variable
+ 
+def add_student(students): #Adds the student information to a list - Removed students (dictionary) argument as it has been made a global variable
     #removed while loop as it was redundant and breaking the program by locking it into the add while loop. 
-    id = int(input("input a id for a student:\n"))
-    x=3
     valuelist = []
-    print("enter a name, gpa, then semester:")
-    while x>0:
-        x -= 1
-        y = input("input:")
-        valuelist.append(y) 
-    name = input("Name:")
-    gpa = input("GPA:")
-    semester = input("Semester:")
-    valuelist = (name, gpa, semester)
-    students[id] = valuelist # adds a new id(key)
-    print("Student added")
-    display_specific(id)
-    return students
+    id = int(input("input a id for a student:\n"))
+    if id in students:
+        print("ID already in system")
+        add_student()
+    else:
+        print("enter a name, gpa, then semester:")
+        name = input("Name:")
+        gpa = input("GPA:")
+        semester = input("Semester:")
+        valuelist = (name, gpa, semester)
+        students[id] = valuelist # adds a new id(key)
+        print("Student added")
+        display_specific(id)
+        return students
     
 
 def display_dict(): #for displaying all the keys and the related values within the students dictionary
     print("The current record of students in this class are as follows:")
     for id in students:
-        print("Student ID:",id, "\nName:",f"{students[id][0]}","\nGPA:",f"{students[id][1]}","\nSemester:",f"{students[id][2]}")
-        
-def display_specific(id):
-    print("Student ID:",id, "\nName:",f"{students[id][0]}","\nGPA:",f"{students[id][1]}","\nSemester:",f"{students[id][2]}")
+        print("Student ID:",str(id) + ",", "Name:",f"{students[id][0]}" + ",", "GPA:",f"{students[id][1]}"+ ",", "Semester:",f"{students[id][2]}")
+        # I removed the "\n" between the information pieces, just to align it more with the assignment output example. I dont know how exact he requires us to be, but we can re add them after I ask the teacher haha
+        # Did the same with the Display Specific function below
 
+def display_specific(id):
+    print("Student ID:",str(id) + ",", "Name:",f"{students[id][0]}" + ",", "GPA:",f"{students[id][1]}"+ ",", "Semester:",f"{students[id][2]}")
+
+# These two display functions are optional but do help make the code look better if we implement them properly. We do have to format the prining in the menues, so these 2 functions help with that
 
 def search(id): # Searches for a student based off of their ID 
     if id in students:
