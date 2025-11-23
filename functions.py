@@ -29,7 +29,7 @@ id = []
 def main_menu():
     print("Welcome to the students record program What would you like to do today?\n-Find a student? \t\t\t\tenter 1\n-Edit a student's name using student ID? \tenter 2 \n-Add a new student? \t\t\t\tenter 3 \n-Remove a student? \t\t\t\tenter 4 \n-Exit? \t\t\t\t\t\tenter -1")
     choice = input(": ")
-    if choice == "1" or choice == 'find':
+    if choice == "1" or choice == 'find': 
         run_search()
     elif choice == '2' or choice == 'edit':
         run_edit()
@@ -37,11 +37,13 @@ def main_menu():
         run_add()
     elif choice == '4' or choice == 'remove':
         run_remove()
-    elif choice in ('-1', 'exit', 'Exit','quit','Quit', 'stop','Stop'):
+    elif choice in ('-1', 'exit', 'Exit','quit','Quit', 'stop','Stop'): #added more keywords here to prevent mistakes
         # print("Exiting, thanks for using the program.")
         exit()
     else: 
         print("Invalid input, please try again.")
+    
+       
     
 
 def run_add(): #- Removed students (dictionary) argument as it has been made a global variable
@@ -52,9 +54,11 @@ def run_add(): #- Removed students (dictionary) argument as it has been made a g
             continue
         else:
             break
+            
+    
 
 def run_search(): # - Removed students (dictionary) argument as it has been made a global variable
-    while True:
+    while True: #while loop included to prevent crashing the program and for catching input errors
         id_str = input("Enter the student ID you want to search for, enter -1 to return to the main menu: \n")
         if id_str == '-1':
             break
@@ -63,22 +67,22 @@ def run_search(): # - Removed students (dictionary) argument as it has been made
             continue
         id = int(id_str)
         search(id)
-    # I think we have to take the main menu out of the if loop. it makes multiple instances of the main menu open
+    
 
 def run_edit(): #- Removed students (dictionary) argument as it has been made a global variable
-    while True:
+    while True: #while loop included to prevent crashing the program and for catching input errors
         edit_name()
         edit = input("Do you wish to edit another students name? y(yes)/n(no)\n ").lower()
-        if edit == 'y' or edit == 'yes':
+        if edit in ('y', 'yes', '1'):
            continue
         else:  
             break
 
 def run_remove():   #- Removed students (dictionary) argument as it has been made a global variable
-    while True:
+    while True: #while loop included to prevent crashing the program and for catching input errors
         remove()
         rem = input("Do you want to remove another student? y(yes)/n(no)")
-        if rem in ('y', 'yes'):
+        if rem in ('y', 'yes','1'):
             continue
         else:
             break
@@ -135,13 +139,56 @@ def edit_name():
         try: # try function to attempt to get a valid int input for the student id (in this case num)
             num = int(input("Enter the id of the student you wish to edit: "))
             if num in students:
-                new_name = input("Enter the new name for the student with this id: ")
-                students[num][0] = new_name
-                print("Student name modified for the student with id", num)
-                print("Students new name is", new_name)
-                break
+                break # this breakes out of the first while loop to continue on to the next one 
             else:
                 print("Error, Please Try Again, ID not found in system.")
         except ValueError:
             print("please try again")
-    
+    while True:  #while loop included to prevent crashing the program and for catching input errors
+        new_name = input("Enter the new name for the student with this id: ")
+
+# ____________________________________ TO REMOVE EASTER EGG DELETE BELOW HERE AND ABOVE NEXT LINE ______________________________________
+
+        if new_name == "": # if user doesn't add a name I thought this might be an interesting easter egg of more content
+            print("Welcome to the hidden menu! You now have the option to change the id, gpa, or semester of the student as well.") #letting user know its an easter egg
+            display_specific(num) 
+            field = input("Which attribute would you like to edit? (1/id|2/gpa|3/semester): ").lower()
+            if field in ('1', 'id'):
+                new_id = int(input("Enter the new ID for the student: "))
+                if new_id in students: #prevent an overwrite error
+                    print("This ID is already in use. Edit aborted.")
+                else:
+                    students[new_id] = students.pop(num) #removes the current id while assigning the previous info to the new id
+                    print(f"Student ID changed from {num} to {new_id}.") #notifying user of change made
+                    display_specific(new_id) 
+                    return
+            elif field in ('2', 'gpa'):
+                new_gpa = input("Enter the new GPA for the student: ")
+                students[num][1] = new_gpa #editing the specific value of the list inside the dictionary 
+                print(f"Student GPA updated to {new_gpa}.")
+                display_specific(num)
+                return
+            elif field in ('3', 'semester'):
+                new_semester = input("Enter the new semester for the student: ")
+                students[num][2] = new_semester #editing the specific value of the list inside the dictionary 
+                print(f"Student semester updated to {new_semester}.")
+                display_specific(num)
+                return
+            else:
+                print("Invalid field selection. Edit aborted.")
+        else: #back to the actual required code which does the name edit when a "proper name" is given (proper used extremely loosely lol)
+
+#___________________________________ TO REMOVE EASTER EGG DELETE ABOVE THIS LINE ______________________________________
+#                                         (ALSO DE-INDENT FOLLOWING 4 LINES)
+
+
+
+            students[num][0] = new_name
+            print("Student name modified for the student with id", num)
+            print("Students new name is", new_name)
+            return
+
+
+
+while True:
+    main_menu() #quick while loop to run the program simply for testing purposes
