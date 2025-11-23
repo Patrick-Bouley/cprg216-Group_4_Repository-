@@ -1,4 +1,4 @@
-global students
+#file copied and adjusted from modified_test.py
 students = {
     100:['Alice', 3.6,3],
     101:['Bob', 3.2,2],
@@ -26,6 +26,7 @@ students = {
     }
 id = []
 
+
 def main_menu():
     print("Welcome to the students record program What would you like to do today?\n-Find a student? \t\t\t\tenter 1\n-Edit a student's name using student ID? \tenter 2 \n-Add a new student? \t\t\t\tenter 3 \n-Remove a student? \t\t\t\tenter 4 \n-Exit? \t\t\t\t\t\tenter -1")
     choice = input(": ")
@@ -37,13 +38,13 @@ def main_menu():
         run_add()
     elif choice == '4' or choice == 'remove':
         run_remove()
+    elif choice == '5': #easter egg to show the whole dictionary
+        display_dict()
     elif choice in ('-1', 'exit', 'Exit','quit','Quit', 'stop','Stop'): #added more keywords here to prevent mistakes
         # print("Exiting, thanks for using the program.")
         exit()
     else: 
         print("Invalid input, please try again.")
-    
-       
     
 
 def run_add(): #- Removed students (dictionary) argument as it has been made a global variable
@@ -55,7 +56,6 @@ def run_add(): #- Removed students (dictionary) argument as it has been made a g
         else:
             break
             
-    
 
 def run_search(): # - Removed students (dictionary) argument as it has been made a global variable
     while True: #while loop included to prevent crashing the program and for catching input errors
@@ -78,6 +78,7 @@ def run_edit(): #- Removed students (dictionary) argument as it has been made a 
         else:  
             break
 
+
 def run_remove():   #- Removed students (dictionary) argument as it has been made a global variable
     while True: #while loop included to prevent crashing the program and for catching input errors
         remove()
@@ -87,7 +88,6 @@ def run_remove():   #- Removed students (dictionary) argument as it has been mad
         else:
             break
         
-
 
 def add_student(): #Adds the student information to a list - Removed students (dictionary) argument as it has been made a global variable
     #removed while loop as it was redundant and breaking the program by locking it into the add while loop. 
@@ -113,11 +113,14 @@ def display_dict(): #for displaying all the keys and the related values within t
     print("The current record of students in this class are as follows:")
     for id in students:
          print("Student ID:",str(id) + ",", "Name:",f"{students[id][0]}" + ",", "GPA:",f"{students[id][1]}"+ ",", "Semester:",f"{students[id][2]}")
+    input("To continue press any key. . .")
+
 
 def display_specific(id):
     print("Student ID:",str(id) + ",", "Name:",f"{students[id][0]}" + ",", "GPA:",f"{students[id][1]}"+ ",", "Semester:",f"{students[id][2]}")
 # Made it so the display changes to be on one line, but still looks clean and you can understand it
 # ID needs to be converted to a string as you cant add an int and a string. just to make the commas work. 
+
 
 def search(id): # Searches for a student based off of their ID 
     if id in students:
@@ -126,6 +129,7 @@ def search(id): # Searches for a student based off of their ID
     else:
         print("Student not in Directory")
 
+
 def remove():
     id = int(input("Enter the ID of the student you want to remove from the Students' Registry: \n"))
     if id in students:
@@ -133,6 +137,7 @@ def remove():
         print("Student Removed")
     else:
         print("Student not in directory")
+
 
 def edit_name():
     while True: #while loop included to prevent crashing the program and for catching input errors
