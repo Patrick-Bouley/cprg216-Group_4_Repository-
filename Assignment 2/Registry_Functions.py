@@ -3,21 +3,10 @@ students = {}
 id = []
 
 def main_menu():
-    print("Welcome to the students record program !\nWhat would you like to do today?\n-Find a student? \t\t\t\tenter 1\n-Edit a student's name using student ID? \tenter 2 \n-Add a new student? \t\t\t\tenter 3 \n-Remove a student? \t\t\t\tenter 4")
+    print("What would you like to do today?\n-Find a student? \t\t\t\tenter 1\n-Edit a student's name using student ID? \tenter 2 \n-Add a new student? \t\t\t\tenter 3 \n-Remove a student? \t\t\t\tenter 4")
     choice = input(": ")
-    if choice == "1":
-        run_search()
-    elif choice == '2':
-        run_edit()
-    elif choice == '3':
-        run_add()
-    elif choice == '4':
-        run_remove()
-    else:
-        print("Invalid input, please try again.")
+    return choice
        
-    
-
 def run_add(): #- Removed students (dictionary) argument as it has been made a global variable
     while True:
         add_student()
@@ -27,8 +16,7 @@ def run_add(): #- Removed students (dictionary) argument as it has been made a g
         else:
             break   
     
-            
-def run_search(): # - Removed students (dictionary) argument as it has been made a global variable
+def run_search(): 
     while True:
         id_str = input("Enter the student ID you want to search for, enter -1 to return to the main menu: \n")
         if id_str == '-1':
@@ -40,9 +28,8 @@ def run_search(): # - Removed students (dictionary) argument as it has been made
             id = int(id_str)
             search(id)
            
-    # I think we have to take the main menu out of the if loop. it makes multiple instances of the main menu open
 
-def run_edit(): #- Removed students (dictionary) argument as it has been made a global variable
+def run_edit(): 
     while True:
         edit_name()
         edit = input("Do you wish to edit another students name? y(yes)/n(no)\n ").lower()
@@ -51,29 +38,27 @@ def run_edit(): #- Removed students (dictionary) argument as it has been made a 
         else:  
             break
 
-def run_remove():   #- Removed students (dictionary) argument as it has been made a global variable
+def run_remove():
     while True:
         remove()
-        rem = input("Do you want to remove another student? y(yes)/n(no)")
+        rem = input("Do you want to remove another student? y(yes)/n(no)\n")
         if rem in ('y', 'yes'):
             continue
         else:
             break
     
-        
-
 
 def add_student(): #Adds the student information to a list - Removed students (dictionary) argument as it has been made a global variable
     #removed while loop as it was redundant and breaking the program by locking it into the add while loop. 
     valuelist = []
-    id = int(input("Enter id of the student, followed by the student's information.\nid:\n"))
+    id = int(input("Enter id of the student, followed by the student's information.\nID:\n"))
     if id in students:
         print("Student ID is already in the Registry")
         display_dict()
     else:
-        name = input("name:\n")
-        gpa = input("gpa:\n")
-        semester = input("semester:\n")
+        name = input("Name:\n")
+        gpa = input("GPA:\n")
+        semester = input("Semester:\n")
         valuelist = [name, gpa, semester]
         students[id] = valuelist # adds a new id(key)
         print("Student added")
