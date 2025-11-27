@@ -3,6 +3,9 @@ from Registry_Functions import *
 # import modified_test makes it so we have to write modified_list.function_name to use anything from that file. so the above way is more convienient 
 
 '''
+Created By Patrick Bouley, Joshua Dyke, Ahmed Yassine Messaoudi. Group 4
+Nov 26th, 2025
+
 A rundown on how the program works
 
 As the program starts, you are presented with a menu and a couple of options. You have to input what you would like to do from those options. Search, Edit, Add, Remove. (1, 2, 3, 4) any other input will be invalid.
