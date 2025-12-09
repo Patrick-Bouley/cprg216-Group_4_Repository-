@@ -1,7 +1,7 @@
 from Student import *
 
 print("Welcome to the students record program!")
-load(students, 'Saved_data.txt')
+load() # this is defined in the import page, meaning the user needs to have a file called "Saved_data.txt" ready to use before running this program.
 test = True 
 while test == True:
     choice = main_menu()
@@ -16,7 +16,7 @@ while test == True:
     elif choice == '5':
         display_dict()
     elif choice == '6':
-        pass # Need a function to call for a file to save to data.txt
+        save_info()
     else:
         print("Invalid input, please try again.")
     operate = input("Would you like to continue(y/yes), or exit the program(n/no)?\n").lower()

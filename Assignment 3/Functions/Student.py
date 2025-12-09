@@ -1,11 +1,10 @@
-file_name = 'Saved_data.txt'
 class Students:
     def __init__(self, id, first_name, last_name, gpa, semester):
         self.__id = int(id)
         self.__fn = str(first_name)
-        self.ln = str(last_name)
-        self.gpa = float(gpa)
-        self.semester = int(semester)
+        self.__ln = str(last_name)
+        self.__gpa = float(gpa)
+        self.__semester = int(semester)
 
     def set_id(self, value):
         self.__id = value
@@ -14,21 +13,21 @@ class Students:
         self.__fn = value
 
     def set_last_name(self, value):
-        self.ln = value
+        self.__ln = value
 
     def set_gpa(self, value):
-        self.gpa = value
+        self.__gpa = value
     
     def set_semester(self, value):
-        self.semester = value
+        self.__semester = value
 
 global students
 students = {}
-id = []
+
 
 def main_menu():
     # A function that displays the main menu and provides a choice for the user to main. It returns that choice so the overal program knows where to send the user
-    print("What would you like to do today?\n-Add a student? \t\t\t\tenter 1\n-Search for a student? \tenter 2 \n-Edit a Students Info? \t\t\t\tenter 3 \n-Remove a student? \t\t\t\tenter 4\n-Print the Student List? \t\t\tenter 5\n-Save the data to a file? \t\t\t enter 6")
+    print("What would you like to do today?\n-Add a student? \t\t\t\tenter 1\n-Search for a student? \t\t\t\tenter 2 \n-Edit a Students Info? \t\t\t\tenter 3 \n-Remove a student? \t\t\t\tenter 4\n-Print the Student List? \t\t\tenter 5\n-Save students to file? \t\t\tenter 6")
     choice = input(": ")
     return choice #sends the input back to the program file for the menu there
        
@@ -86,37 +85,57 @@ def run_remove():
             break
     
 def add_student(): 
-    #Adds the student information to a list - Removed students (dictionary) argument as it has been made a global variable
-    valuelist = []
-    id = int(input("Enter id of the student, followed by the student's information.\nID:\n")) #this will break if not given a int type input
-    #removed while loop as it was redundant and breaking the program by locking it into the add while loop. 
-    if id in students:
-        print("Incorrect ID. ID already exist in the system") #prevents user from remaking a current student
-        display_dict() #shows the current dictionary so that the user can see any taken id's
-    else:
-        firstname = input("First name:\n")
-        lastname = input("Last name:\n")
-        gpa = input("GPA:\n")
-        semester = input("Semester:\n")
-        s1 = Students(id, firstname, lastname, gpa, semester) #adding all inputs to a list to add to the students dictionary
-        students[id] = s1 # adds a new id(key)
-        print("Student Enrolled in the system.") #user confirmation in two parts, telling the user that its added and showing the user the new addition
-        display_specific(id) 
-    # Added a loop to check if the id is already in use
-    if valuelist in students:
-        print("The student's already enrolled. No action is required..")
+    # Adds students to a directory, based off the class system above
+    id = int(input("Enter id of the student, followed by the student's information.\nID:\n")) 
+    #this will break if not given a number for an input
+    if id in students: #prevents user from using the same ID to create multiple students. 
+        print("Incorrect ID. ID already exist in the system")
+        return 
+    #   display_dict() we should remove this from here because we are making it its own thing in the main menu
+    firstname = input("First name:\n")
+    lastname = input("Last name:\n")
+    gpa = input("GPA:\n")
+    semester = input("Semester:\n")
+    for sid in students:
+            student = students[sid]
+            if (student._Students__fn == firstname and 
+                student._Students__ln == lastname):
+                print("Error: A student with that first and last name already exists.")
+                return
+            # This checks to see if the first and last name are in use at the same time. students can have the same first name with a different last name, or vise versa
+    students[id] = Students(id, firstname, lastname, gpa, semester)
+    print("Student Enrolled in the system.") #user confirmation in two parts, telling the user that its added and showing the user the new addition
+    display_specific(id) 
 
-    
 def display_dict(): 
     #for displaying all the keys and the related values within the students dictionary
     print("The current record of students in this class are as follows:")
-    for id in students:
-         print("Student ID:",str(id) + ",", "Name:",f"{students[id][0]}" + ",", "GPA:",f"{students[id][1]}"+ ",", "Semester:",f"{students[id][2]}")
+ # Loop through every student ID stored in the dictionary
+    for id in students: # Get each private attribute using the specific object in students.
+        first = students[id]._Students__fn
+        last = students[id]._Students__ln
+        gpa = students[id]._Students__gpa
+        sem = students[id]._Students__semester
+        print(f"ID: {id}, Name: {first} {last}, GPA: {gpa}, Semester: {sem}")
+        # I decided to change how the Information is formated, 
+
 
 def display_specific(id):
-    print("Student ID:",str(id) + ",", "Name:",f"{students[id][0]}" + ",", "GPA:",f"{students[id][1]}"+ ",", "Semester:",f"{students[id][2]}")
-# Made it so the display changes to be on one line, but still looks clean and you can understand it
-# ID needs to be converted to a string as you cant add an int and a string. just to make the commas work. using end = "," adds way too many commas and makes the text look ugly
+    # Make sure the ID exists before displaying
+    if id not in students:
+        print("Student not found.")
+        return
+    first = students[id]._Students__fn
+    last = students[id]._Students__ln
+    gpa = students[id]._Students__gpa
+    sem = students[id]._Students__semester
+
+    # Display the student info clearly
+    print(f"Student ID: {id}")
+    print(f"Name: {first} {last}")
+    print(f"GPA: {gpa}")
+    print(f"Semester: {sem}")
+
 
 def search(id): 
     # Searches for a student based off of their ID 
@@ -128,34 +147,53 @@ def search(id):
 
 def remove():
     # Will remove all information on a student based off of the ID that is inputted
-    id = int(input("Enter the ID of the student you want to remove from the Students' Registry:\n")).strip() #gets id from user, will break program if it isn't an integer input though
+    id = int(input("Enter the ID of the student you want to remove from the Students' Registry:\n")) #gets id from user, will break program if it isn't an integer input though
     if id in students: #checks if the id is in the students dictionary
         del students[id] #removes the student from the dictionary
         print("Student Removed") #confirmation of removal
+        save_info() # This will make sure the file gets changed to match what has been removed. 
     else:
         print("Student not in directory") #error message
 
-def edit_name(): 
-    # Edits only the name of a student in the program based off the ID that is inputed
-    num = int(input("Enter the id of the student. Enter -1 to return to the previous menu.\n")) #gets id from user, will break program if it isn't an integer input though
-    if num in students: #checks if the id is in the students dictionary
-        firstname = input("First name:\n")
-        students[num][0] = firstname
-        lastname = input("Last name:\n")
-        students[num][1] = lastname
-        gpa = input("GPA:\n")
-        students[num][2] = gpa
-        semester = input("Semester:\n")
-        students[num][3] = semester 
-        print("Student's new info is", students)
+def edit_name():
+    # Ask the user for a student ID
+    id = int(input("Enter the ID of the student you want to edit:\n"))
+    # Checks to make sure the ID is in the system first
+    if id not in students:
+        print("That ID does not exist in the system.")
         return
-    else:
-        print("Id does not exist in directory") #error message
+    # Ask for updated information, in relation to the objects in Students
+    new_first = input("Enter the new first name:\n")
+    new_last = input("Enter the new last name:\n")
+    new_gpa = float(input("Enter the new GPA:\n"))
+    new_sem = int(input("Enter the new semester:\n"))
+    # We then use 'set' to update what those objects should be for that specific student bassed on the ID
+    students[id].set_first_name(new_first)
+    students[id].set_last_name(new_last)
+    students[id].set_gpa(new_gpa)
+    students[id].set_semester(new_sem)
+    print("Student information updated successfully.")
+    save_info()
 
 def save_info():
-    fid = open(file_name, 'r')
+    with open("Saved_data.txt", "w") as fid:
+        # Choosing to write and not append. So that everytime we save the info, it updates the whole file, instead of just adding it to the bottom. 
+        for id in students:
+            line = (f"{id}|"f"{students[id]._Students__fn}|"f"{students[id]._Students__ln}|"f"{students[id]._Students__gpa}|"f"{students[id]._Students__semester}\n")
+            # This writes the line in a way that allows the Load function to read them properly. Cause I made that info all be on one line.
+            fid.write(line)
+    print("Data saved successfully.")
+# I believe we have to write to the file, cause apending would keep adding students, and eventually become out of sync with the file if students keep getting removed. 
     
 
 def load():
-    fid = open(file_name, 'r')
-    lines = fid.readlines
+    students.clear()
+    #We use this to clear the current memory (As in the program that just opened) and clears its cache, before loading all the info from the file. helps to prevent duplicates if we are constanly starting/stopping the program
+    with open("Saved_data.txt", "r") as fid: # We want to read the file and take that data, so we use "r"
+        # Using with makes it so we dont have to open and close the file, it does it automatically. 
+        for line in fid: # Since we are saving each student to one line. each line represents one student. This should loop through each line and take the data that is required.
+            id, fn, ln, gpa, sem = line.strip().split("|") # Just using this to seperate the info for now, We might not need this at all 
+            students[int(id)] = Students(id, fn, ln, gpa, sem)
+            # The file should automatically add these to the private attributes. 
+            # made id an int because thats how we have been making it a key for our dictionary 
+    print("Student data loaded successfully.")
