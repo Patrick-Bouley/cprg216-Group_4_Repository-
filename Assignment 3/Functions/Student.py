@@ -127,7 +127,7 @@ def display_specific(id):
     sem = students[id].__semester__
  
     # Display the student info clearly
-    print(f"Student ID: {id}", f"Name: {first} {last}", f"GPA: {gpa}", f"Semester: {sem}", end = ",")
+    print(f"Student ID: {id}", f"Name: {first} {last}", f"GPA: {gpa}", f"Semester: {sem}", sep = ", ")
  
  
 def search(id):
