@@ -21,6 +21,7 @@ while operate:
         print("Invalid input, please try again.")
         continue
     while True:
+        # Added this loop to prevent inputs other than Yes or No, and repeats the question until a proper input is added 
         operate = input("Would you like to go back to the main menu?(y/yes), or exit the program(n/no)?\n").lower()
         if operate == "yes" or operate == "y":
             operate = True

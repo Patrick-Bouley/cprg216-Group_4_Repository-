@@ -57,7 +57,6 @@ def run_search():
             print("Invalid input. Please enter a valid student ID.")
         
         
-           
 def run_edit():
     # a function to run the edit student function until the user decides they are done
     while True:
@@ -111,7 +110,7 @@ def display_all():
         gpa = student._Students__gpa
         sem = student._Students__semester
         # This should loop through all the Students on the file
-        print(f"ID: {id}, Name: {first} {last}, GPA: {gpa}, Semester: {sem}")
+        print(f"ID: {id}, Name: {first} {last}, GPA: {gpa}, Semester: {sem}", sep = ",")
         # I decided to change how the Information is formated,
  
  
@@ -156,14 +155,14 @@ def remove():
     if id in students: #checks if the id is in the students dictionary
         del students[id] #removes the student from the dictionary
         print("Student Removed") #confirmation of removal
-        save_info() # This will make sure the file gets changed to match what has been removed.
+        save_info() # This will make sure the file gets changed to match what has been removed. Making sure There would be any discrepancies/differences 
     else:
-        print("Student not in directory") #error message
+        print("Student not in directory") #error message if there isnt a student with matching info
  
 def edit_name():
     # Ask the user for a student ID
     id = int(input("Enter the ID of the student you want to edit:\n"))
-    # Checks to make sure the ID is in the system first
+    # The statement below checks to make sure the ID is in the system first
     if id not in students:
         print("That ID does not exist in the system.")
         return
@@ -179,25 +178,27 @@ def edit_name():
     students[id].set_semester(new_sem)
     print("Student information updated successfully.")
     save_info()
+    # Saves the info to the file automatically. just to update the information. Keeps the file consistent for what is stored in there and the program that is currently running
  
 def save_info():
     with open("Saved_data.txt", "w") as fid:
         # Choosing to write and not append. So that everytime we save the info, it updates the whole file, instead of just adding it to the bottom.
         for id in students:
             line = (f"{id}|"f"{students[id]._Students__fn}|"f"{students[id]._Students__ln}|"f"{students[id]._Students__gpa}|"f"{students[id]._Students__semester}\n")
-            # This writes the line in a way that allows the Load function to read them properly. Cause I made that info all be on one line.
+            # This writes the line in a way that allows the Load function to read them properly. Because that info is all on one line.
             fid.write(line)
     print("Data saved successfully.")
-# I believe we have to write to the file, cause apending would keep adding students, and eventually become out of sync with the file if students keep getting removed.
+# I believe we have to write to the file, cause apending would keep adding students, and eventually become out of sync with the program if students keep getting removed/edited
    
  
 def load():
     students.clear()
     #We use this to clear the current memory (As in the program that just opened) and clears its cache, before loading all the info from the file. helps to prevent duplicates if we are constanly starting/stopping the program
+    #This doesnt actually delete/remove anything from the file though. just a way to prevent possible error/duplications. 
     with open("Saved_data.txt", "r") as fid: # We want to read the file and take that data, so we use "r"
         # Using with makes it so we dont have to open and close the file, it does it automatically.
         for line in fid: # Since we are saving each student to one line. each line represents one student. This should loop through each line and take the data that is required.
-            id, fn, ln, gpa, sem = line.strip().split("|") # Just using this to seperate the info for now, We might not need this at all
+            id, fn, ln, gpa, sem = line.strip().split("|") # This takes the data and splits it with the |. so its easy to ready the file and keep the information seperate. Which is why we need to strip that info when we try to interpret that information in the functuons above.
             students[int(id)] = Students(id, fn, ln, gpa, sem)
             # The file should automatically add these to the private attributes.
             # made id an int because thats how we have been making it a key for our dictionary
