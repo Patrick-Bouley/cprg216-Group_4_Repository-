@@ -2,8 +2,8 @@ from Student import *
 
 print("Welcome to the students record program!")
 load() # this is defined in the import page, meaning the user needs to have a file called "Saved_data.txt" ready to use before running this program.
-test = True 
-while test == True:
+operate = True 
+while operate:
     choice = main_menu()
     if choice == "1":
         run_add()
@@ -14,15 +14,21 @@ while test == True:
     elif choice == '4':
         run_remove()
     elif choice == '5':
-        display_dict()
+        display_all()
     elif choice == '6':
         save_info()
     else:
         print("Invalid input, please try again.")
-    operate = input("Would you like to continue(y/yes), or exit the program(n/no)?\n").lower()
-    if operate == "yes" or operate == "y":
-        test = True
-    else:
-        test = False
+        continue
+    while True:
+        operate = input("Would you like to go back to the main menu?(y/yes), or exit the program(n/no)?\n").lower()
+        if operate == "yes" or operate == "y":
+            operate = True
+            break
+        elif operate == "no" or operate == "n":
+            operate = False
+            break
+        else:
+            print("Invalid input. Please Try again")
 
 print("Exiting, thanks for using the program.")

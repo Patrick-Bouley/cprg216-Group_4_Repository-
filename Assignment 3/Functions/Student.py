@@ -1,29 +1,30 @@
 class Students:
     def __init__(self, id, first_name, last_name, gpa, semester):
-        self.__id__ = id
-        self.__fn__ = first_name
-        self.__ln__ = last_name
-        self.__gpa__ = gpa
-        self.__semester__ = semester
+        # Make all these private
+        self.__id = id
+        self.__fn = first_name
+        self.__ln = last_name
+        self.__gpa = gpa
+        self.__semester = semester
  
     def set_id(self, value):
-        self.__id__ = value
+        self.__id = value
  
     def set_first_name(self, value):
-        self.__fn__ = value
+        self.__fn = value
  
     def set_last_name(self, value):
-        self.__ln__ = value
+        self.__ln = value
  
     def set_gpa(self, value):
-        self.__gpa__ = value
+        self.__gpa = value
    
     def set_semester(self, value):
-        self.__semester__ = value
+        self.__semester = value
  
 global students
 students = {}
-id = ()
+
  
 def main_menu():
     # A function that displays the main menu and provides a choice for the user to main. It returns that choice so the overal program knows where to send the user
@@ -43,32 +44,25 @@ def run_add(): #- Removed students (dictionary) argument as it has been made a g
    
 def run_search():
     # A function that runs the search function, until the user decides they are done
-    while True: # A while statement is used so that we can take input as many times as the user would like to use the program as well as to
+    while True: # A while statement is used so that we can take input as many times as the user would like to use the function
         id_str = input("To search using the ID enter 1. To search using the first name and last name enter 2. Enter -1 to return to the previous menu. \n")
         if id_str == '1': #checking if the user wants to search using the ID.
-            print("Please enter the ID of the student:")
-            for id in Students:
-                print("Student found", students)
+            search_id = int(input("Please enter the ID of the student:"))
+            ID_search(search_id)
         elif id_str == '2': #checking if the user wants to search using the first and last names.
-            firstname = input("Please enter the first name of the student:\n")
-            lastname = input("Please enter the last name of the student:\n")
-            if firstname and lastname in Students:
-                print("Student found", students)
-            else:
-                print("Student not found")
+            Name_search()
         elif id_str == '-1': #checking if the user wants to return to the previous menu.
             break
         elif not id_str.isdigit(): #checks if user input is a number or not, if not then loop continues
             print("Invalid input. Please enter a valid student ID.")
-        else:
-            id = int(id_str) #now that checks have been done to make sure that the number above is a valid input its now possible to convert input to a int
-            search(id) #runs the search function with the converted input
+        
+        
            
 def run_edit():
     # a function to run the edit student function until the user decides they are done
     while True:
         edit_name()
-        edit = input("Do you wish to edit another students name? y(yes)/n(no)\n ").lower()
+        edit = input("Do you wish to edit another students info? y(yes)/n(no)\n").lower()
         if edit == 'y' or edit == 'yes':
            continue
         else:  
@@ -89,29 +83,34 @@ def add_student():
     id = int(input("Enter id of the student, followed by the student's information.\nID:\n"))
     #this will break if not given a number for an input
     if id in students: #prevents user from using the same ID to create multiple students.
-        print("Incorrect ID. ID already exist in the system")
+        print("ID already exists in the system")
         return
     student = Students(id, input("First name:\n"), input("Last name:\n"), input("GPA:\n"), input("Semester:\n"))
-    students[id] = student
-    # for id in student:
-    #     student = students[id]
-    #     if (Students.__fn__ == first_name and
-    #         Students.__ln__ == last_name):
-    #         print("Error: A student with that first and last name already exists.")
-    #         return
+    for name in students.values():
+        if (name._Students__fn.lower() == student._Students__fn.lower() and name._Students__ln.lower() == student._Students__ln.lower()):
+            # We use .lower to avoid things like "John Smith" and "john smith" to be considered two different names.
+            print("Error: A student with that first and last name already exists.")
+            return
             # This checks to see if the first and last name are in use at the same time. students can have the same first name with a different last name, or vise versa
+    students[id] = student
     print("Student Enrolled in the system.") #user confirmation in two parts, telling the user that its added and showing the user the new addition
-    display_specific(id)
+    display_specific(id) #Shows the student that was just added 
+    save_info() # Automatically saves that info to the file 
  
-def display_dict():
-    #for displaying all the keys and the related values within the students dictionary
-    print("The current record of students in this class are as follows:")
+def display_all():
+    #for displaying all the students in the save file
+    if not students:
+        print("No Students are currently saved to the system")
+        return
+        # This just checks to see if there even is anything saved to the file first, before trying to display something
+    print("The current record of students in the system are as follows:")
  # Loop through every student ID stored in the dictionary
-    for id in students: # Get each private attribute using the specific object in students.
-        first = students[id]._Students__fn__
-        last = students[id]._Students__ln__
-        gpa = students[id]._Students__gpa__
-        sem = students[id]._Students__semester__
+    for id, student in students.items():
+        first = student._Students__fn
+        last = student._Students__ln
+        gpa = student._Students__gpa
+        sem = student._Students__semester
+        # This should loop through all the Students on the file
         print(f"ID: {id}, Name: {first} {last}, GPA: {gpa}, Semester: {sem}")
         # I decided to change how the Information is formated,
  
@@ -121,22 +120,35 @@ def display_specific(id):
     if id not in students:
         print("Student not found.")
         return
-    first = students[id].__fn__
-    last = students[id].__ln__
-    gpa = students[id].__gpa__
-    sem = students[id].__semester__
+    first = students[id]._Students__fn
+    last = students[id]._Students__ln
+    gpa = students[id]._Students__gpa
+    sem = students[id]._Students__semester
  
     # Display the student info clearly
     print(f"Student ID: {id}", f"Name: {first} {last}", f"GPA: {gpa}", f"Semester: {sem}", sep = ", ")
  
  
-def search(id):
+def ID_search(id):
     # Searches for a student based off of their ID
     if id in students:
         print("Student found")
         display_specific(id) # displaying the student info consistently by using a display function
     else:
         print("Student not in Directory") #error message
+
+def Name_search():
+    #Searches for a student based off their First and Last names 
+    first = input("Please enter the first name of the student:\n").strip().lower()
+    last = input("Please enter the last name of the student:\n").strip().lower()
+    # We use Strip and lower to make sure its an easy comparision for the file. same reason we use lower in the call function below as well
+    for id, student in students.items():
+        if (student._Students__fn.lower() == first and student._Students__ln.lower() == last):
+            print("Student found")
+            display_specific(id)
+            return
+    else:
+        print("Student not found")
  
 def remove():
     # Will remove all information on a student based off of the ID that is inputted
