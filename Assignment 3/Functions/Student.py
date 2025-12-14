@@ -47,7 +47,7 @@ def run_search():
     while True: # A while statement is used so that we can take input as many times as the user would like to use the function
         id_str = input("To search using the ID enter 1. To search using the first name and last name enter 2. Enter -1 to return to the previous menu. \n")
         if id_str == '1': #checking if the user wants to search using the ID.
-            search_id = int(input("Please enter the ID of the student:"))
+            search_id = int(input("Please enter the ID of the student:\n"))
             ID_search(search_id)
         elif id_str == '2': #checking if the user wants to search using the first and last names.
             Name_search()
@@ -84,11 +84,11 @@ def add_student():
     if id in students: #prevents user from using the same ID to create multiple students.
         print("ID already exists in the system")
         return
-    student = Students(id, input("First name:\n"), input("Last name:\n"), input("GPA:\n"), input("Semester:\n"))
+    student = Students(id, input("First name:\n"), input("Last name:\n"), float(input("GPA:\n")), int(input("Semester:\n")))
     for name in students.values():
         if (name._Students__fn.lower() == student._Students__fn.lower() and name._Students__ln.lower() == student._Students__ln.lower()):
             # We use .lower to avoid things like "John Smith" and "john smith" to be considered two different names.
-            print("Error: A student with that first and last name already exists.")
+            print("Error: That student Is already enrolled, no action is required.")
             return
             # This checks to see if the first and last name are in use at the same time. students can have the same first name with a different last name, or vise versa
     students[id] = student
@@ -103,8 +103,10 @@ def display_all():
         return
         # This just checks to see if there even is anything saved to the file first, before trying to display something
     print("The current record of students in the system are as follows:")
- # Loop through every student ID stored in the dictionary
+# Loop through every student ID stored in the dictionary
+# We put "for ID, student..."" here so it loops throiugh all the IDs. to make sure all of them get read, with the information attactched to them.
     for id, student in students.items():
+        # We use name mangling to gather the information needed. Its how we access the class variables from outside the class
         first = student._Students__fn
         last = student._Students__ln
         gpa = student._Students__gpa
@@ -119,15 +121,14 @@ def display_specific(id):
     if id not in students:
         print("Student not found.")
         return
+    # Name mangling for info
     first = students[id]._Students__fn
     last = students[id]._Students__ln
     gpa = students[id]._Students__gpa
     sem = students[id]._Students__semester
- 
     # Display the student info clearly
     print(f"Student ID: {id}", f"Name: {first} {last}", f"GPA: {gpa}", f"Semester: {sem}", sep = ", ")
- 
- 
+  
 def ID_search(id):
     # Searches for a student based off of their ID
     if id in students:
@@ -177,6 +178,7 @@ def edit_name():
     students[id].set_gpa(new_gpa)
     students[id].set_semester(new_sem)
     print("Student information updated successfully.")
+    display_specific(id)
     save_info()
     # Saves the info to the file automatically. just to update the information. Keeps the file consistent for what is stored in there and the program that is currently running
  
