@@ -114,8 +114,7 @@ def display_all():
         # This should loop through all the Students on the file
         print(f"ID: {id}, Name: {first} {last}, GPA: {gpa}, Semester: {sem}", sep = ",")
         # I decided to change how the Information is formated,
- 
- 
+
 def display_specific(id):
     # Make sure the ID exists before displaying
     if id not in students:
@@ -141,7 +140,7 @@ def Name_search():
     #Searches for a student based off their First and Last names 
     first = input("Please enter the first name of the student:\n").strip().lower()
     last = input("Please enter the last name of the student:\n").strip().lower()
-    # We use Strip and lower to make sure its an easy comparision for the file. same reason we use lower in the call function below as well
+    # We use Strip and lower to make sure its an easy comparision for the file. same reason we use lower in the function below as well
     for id, student in students.items():
         if (student._Students__fn.lower() == first and student._Students__ln.lower() == last):
             print("Student found")
@@ -156,7 +155,7 @@ def remove():
     if id in students: #checks if the id is in the students dictionary
         del students[id] #removes the student from the dictionary
         print("Student Removed") #confirmation of removal
-        save_info() # This will make sure the file gets changed to match what has been removed. Making sure There would be any discrepancies/differences 
+        save_info() # This will make sure the file gets changed to match what has been removed. Making sure there isnt any discrepancies/differences between whats saved, and currently on the program
     else:
         print("Student not in directory") #error message if there isnt a student with matching info
  
@@ -180,7 +179,7 @@ def edit_name():
     print("Student information updated successfully.")
     display_specific(id)
     save_info()
-    # Saves the info to the file automatically. just to update the information. Keeps the file consistent for what is stored in there and the program that is currently running
+    # Saves the info to the file automatically. just to update the information. Keeps the file consistent for what is stored in there and matches with the program that is currently running
  
 def save_info():
     with open("Saved_data.txt", "w") as fid:
@@ -191,8 +190,7 @@ def save_info():
             fid.write(line)
     print("Data saved successfully.")
 # I believe we have to write to the file, cause apending would keep adding students, and eventually become out of sync with the program if students keep getting removed/edited
-   
- 
+
 def load():
     students.clear()
     #We use this to clear the current memory (As in the program that just opened) and clears its cache, before loading all the info from the file. helps to prevent duplicates if we are constanly starting/stopping the program
