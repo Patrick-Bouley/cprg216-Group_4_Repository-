@@ -12,7 +12,7 @@ A file will automatically be created if one doesnt exist.
 '''
 
 print("Welcome to the students record program!")
-load() # this is defined in the import page, meaning the user needs to have a file called "Saved_data.txt" ready to use before running this program.
+load() # this will be skipped if a file doesnt already exist. The save function will automatically create one if needed. 
 operate = True 
 while operate:
     choice = main_menu()
