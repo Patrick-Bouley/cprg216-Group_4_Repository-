@@ -183,7 +183,7 @@ def edit_name():
     # Saves the info to the file automatically. just to update the information. Keeps the file consistent for what is stored in there and matches with the program that is currently running
  
 def save_info():
-    with open("Saved_data.txt", "w") as fid:
+    with open("Saved_students.txt", "w") as fid:
         # Choosing to write and not append. So that everytime we save the info, it updates the whole file, instead of just adding it to the bottom.
         for id in students:
             line = (f"{id}|"f"{students[id]._Student__fn}|"f"{students[id]._Student__ln}|"f"{students[id]._Student__gpa}|"f"{students[id]._Student__semester}\n")
@@ -196,8 +196,8 @@ def load():
     students.clear()
     # We use this to clear the current memory (As in the program that just opened) and clears its cache, before loading all the info from the file. helps to prevent duplicates if we are constanly starting/stopping the program
     # This doesnt actually delete/remove anything from the file though. just a way to prevent possible error/duplications. 
-    if os.path.exists("Saved_data.txt"):
-        with open("Saved_data.txt", "r") as fid: # We want to read the file and take that data, so we use "r"
+    if os.path.exists("Saved_students.txt"):
+        with open("Saved_students.txt", "r") as fid: # We want to read the file and take that data, so we use "r"
             # Using 'with' makes it so we dont have to open and close the file, it does it automatically.
             for line in fid: # Since we are saving each student to one line. each line represents one student. This should loop through each line and take the data that is required.
                 id, fn, ln, gpa, sem = line.strip().split("|") # This takes the data and splits it with the |. so its easy to ready the file and keep the information seperate.
