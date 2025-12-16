@@ -2,7 +2,7 @@ import os
 cars = {}
 
 class Car:
-    def __init__(self, id, name, make, body, year, value):
+    def __init__(self, id:int, name, make, body, year:int, value:float):
         # Make all these private
         self.__id = id
         self.__name = name
@@ -189,7 +189,7 @@ def display_all():
         year = car._Car__year
         value = car._Car__value
         # This should loop through all the cars on the file
-        print(f"ID: {id}, Name: {name} , Make: {make}, Body: {body}, Year: {year}, Value: {value}", sep = ",")
+        print(f"ID: {id}, Name: {name}, Make: {make}, Body: {body}, Year: {year}, Value: {value}", sep = ",")
         # I decided to change how the Information is formated,
 
 def display_specific(id):
