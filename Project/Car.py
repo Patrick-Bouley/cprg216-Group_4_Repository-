@@ -2,7 +2,7 @@ import os
 cars = {}
 
 class Car:
-    def __init__(self, id, name, make, body, year, value):
+    def __init__(self, id:int, name, make, body, year:int, value:float):
         # Make all these private
         self.__id = id
         self.__name = name
@@ -38,13 +38,20 @@ def main_menu():
 def run_add():
     # A function that runs the add car function, until the user decides they are done
     while True:
-        add_car()
+        id_str = input("Enter id of the car, followed by the car's information.\nID:\n")
+        try:
+            id = int(id_str)
+        except:
+            continue
+        add_car(id)
         add = input("Do you want to add more cars? y(yes)/n(no)\n").lower().strip()
         if add in ('y', 'yes'):
             continue
         else:
             break  
-   
+
+run_add()
+
 def run_search():
     # A function that runs the search function, until the user decides they are done
     while True: # A while statement is used so that we can take input as many times as the user would like to use the function
@@ -104,9 +111,8 @@ def save_info():
             fid.write(line)
     print("Data saved successfully.")
    
-def add_car():
+def add_car(id):
     # Adds cars to a directory, based off the class system above
-    id = int(input("Enter id of the car, followed by the car's information.\nID:\n"))
     if id in cars: #prevents user from using the same ID to create multiple cars.
         print("Incorrect ID. ID already exists in the system")
         return
@@ -189,7 +195,7 @@ def display_all():
         year = car._Car__year
         value = car._Car__value
         # This should loop through all the cars on the file
-        print(f"ID: {id}, Name: {name} , Make: {make}, Body: {body}, Year: {year}, Value: {value}", sep = ",")
+        print(f"Car ID: {id}, Name: {name}, Make: {make}, Body: {body}, Year: {year}, Value: ${value:.2f}")
 
 def display_specific(id):
     # Make sure the ID exists before displaying
@@ -202,4 +208,4 @@ def display_specific(id):
     year = cars[id]._Car__year
     value = cars[id]._Car__value
     # Display the car info clearly
-    print(f"Car ID: {id}", f"Name: {name}", f"Make: {make}", f"Body: {body}", f"Year: {year}", f"Value: {value}", sep = ", ")
+    print(f"Car ID: {id}, Name: {name}, Make: {make}, Body: {body}, Year: {year}, Value: ${value:.2f}")
