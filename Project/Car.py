@@ -50,8 +50,6 @@ def run_add():
         else:
             break  
 
-run_add()
-
 def run_search():
     # A function that runs the search function, until the user decides they are done
     while True: # A while statement is used so that we can take input as many times as the user would like to use the function
