@@ -2,7 +2,7 @@ import os
 cars = {}
 
 class Car:
-    def __init__(self, id:int, name, make, body, year:int, value:float):
+    def __init__(self, id, name, make, body, year, value):
         # Make all these private
         self.__id = id
         self.__name = name
@@ -62,13 +62,12 @@ def run_search():
 def run_edit():
     # a function to run the edit car function until the user decides they are done
     while True:
-        edit_car()
-        edit = input("Do you wish to edit another cars info? y(yes)/n(no)\n").lower()
-        if edit == 'y' or edit == 'yes':
-           continue
-        else:  
+        edit = int(input("Enter the ID of the car. Enter -1 to return to the main menu.\n"))
+        if edit == int(-1):
             break
- 
+        else:
+            edit_car(edit)
+  
 def run_remove():
     # a function to run the remove car function to remove as many cars as desired | Also nearly identical to the function above
     while True:
@@ -150,9 +149,7 @@ def remove():
     else:
         print("Car not in inventory") #error message if there isnt a car with matching info
  
-def edit_car():
-    # Ask the user for a car ID
-    id = int(input("Enter the ID of the car you want to edit:\n"))
+def edit_car(id):
     # The statement below checks to make sure the ID is in the system first
     if id not in cars:
         print("That ID does not exist in the system.")
@@ -189,8 +186,7 @@ def display_all():
         year = car._Car__year
         value = car._Car__value
         # This should loop through all the cars on the file
-        print(f"ID: {id}, Name: {name}, Make: {make}, Body: {body}, Year: {year}, Value: {value}", sep = ",")
-        # I decided to change how the Information is formated,
+        print(f"ID: {id}, Name: {name} , Make: {make}, Body: {body}, Year: {year}, Value: {value}", sep = ",")
 
 def display_specific(id):
     # Make sure the ID exists before displaying
