@@ -193,7 +193,7 @@ def display_all():
         year = car._Car__year
         value = car._Car__value
         # This should loop through all the cars on the file
-        print(f"Car ID: {id}, Name: {name}, Make: {make}, Body: {body}, Year: {year}, Value: ${value:.2f}")
+        print(f"Car ID: {id}, Name: {name}, Make: {make}, Body: {body}, Year: {year}, Value: ${value}")
 
 def display_specific(id):
     # Make sure the ID exists before displaying
@@ -206,4 +206,4 @@ def display_specific(id):
     year = cars[id]._Car__year
     value = cars[id]._Car__value
     # Display the car info clearly
-    print(f"Car ID: {id}, Name: {name}, Make: {make}, Body: {body}, Year: {year}, Value: ${value:.2f}")
+    print(f"Car ID: {id}, Name: {name}, Make: {make}, Body: {body}, Year: {year}, Value: ${value}")

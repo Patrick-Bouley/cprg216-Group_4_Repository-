@@ -1,4 +1,2 @@
-1|Blue Honda Fit|Honda|Fit|2010|70000.0
-2|blue honda fit|honda|fit |2009|10001.0
-3|green honda fit|honda|fit|2009|1002.0
-4|red honda fit|honda|fit|2009|1005.0
+1|buyy|bently|rid|32|3.0
+123|bug|vw|bug|2000|2.0
