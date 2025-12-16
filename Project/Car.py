@@ -62,11 +62,14 @@ def run_search():
 def run_edit():
     # a function to run the edit car function until the user decides they are done
     while True:
-        edit = int(input("Enter the ID of the car. Enter -1 to return to the main menu.\n"))
-        if edit == int(-1):
+        edit = (input("Enter the ID of the car. Enter -1 to return to the main menu.\n"))
+        if edit == '-1':
             break
-        else:
+        elif edit.isdigit():
+            edit = int(edit)
             edit_car(edit)
+        else:
+            print("Invalid input, please try again")
   
 def run_remove():
     # a function to run the remove car function to remove as many cars as desired | Also nearly identical to the function above
