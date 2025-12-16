@@ -1,3 +1,6 @@
+import os
+cars = {}
+
 class Car:
     def __init__(self, id, name, make, body, year, value):
         # Make all these private
@@ -25,11 +28,7 @@ class Car:
    
     def set_value(self, value):
         self.__value = value
- 
-global cars
-cars = {}
 
- 
 def main_menu():
     # A function that displays the main menu and provides a choice for the user to main. It returns that choice so the overal program knows where to send the user
     print("What would you like to do today?\n-Add a car? \t\t\t\tenter 1\n-Search for a car? \t\t\tenter 2 \n-Edit the cars info? \t\t\tenter 3 \n-Remove a car? \t\t\t\tenter 4\n-Print the car list?\t\t\tenter 5\n-Save the cars to a file? \t\tenter 6\n-Exit? \t\t\t\t\tenter 0")
@@ -59,8 +58,7 @@ def run_search():
             break
         elif not id_str.isdigit(): #checks if user input is a number or not, if not then loop continues
             print("Invalid input. Please enter a valid car ID.")
-        
-        
+            
 def run_edit():
     # a function to run the edit car function until the user decides they are done
     while True:
@@ -80,11 +78,33 @@ def run_remove():
             continue
         else:
             break
+
+def load():
+    cars.clear()
+    #We use this to clear the current memory (As in the program that just opened) and clears its cache, before loading all the info from the file. helps to prevent duplicates if we are constanly starting/stopping the program
+    #This doesnt actually delete/remove anything from the file though. just a way to prevent possible error/duplications. 
+    if os.path.exists("Saved_cars.txt"):
+        with open("Saved_cars.txt", "r") as fid: # We want to read the file and take that data, so we use "r"
+        # Using with makes it so we dont have to open and close the file, it does it automatically.
+            for line in fid: # Since we are saving each car to one line. each line represents one car. This should loop through each line and take the data that is required.
+                id, name, make, body, year, value = line.strip().split("|") # This takes the data and splits it with the |. so its easy to ready the file and keep the information seperate. Which is why we need to strip that info when we try to interpret that information in the functuons above.
+                cars[int(id)] = Car(id, name, make, body, year, value)
+            # The file should automatically add these to the private attributes.
+            # made id an int because thats how we have been making it a key for our dictionary
+        print("Car data loaded successfully.")
+
+def save_info():
+    with open("Saved_cars.txt", "w") as fid:
+        # Choosing to write and not append. So that everytime we save the info, it updates the whole file, instead of just adding it to the bottom.
+        for id in cars:
+            line = (f"{id}|"f"{cars[id]._Car__name}|"f"{cars[id]._Car__make}|"f"{cars[id]._Car__body}|"f"{cars[id]._Car__year}|"f"{cars[id]._Car__value}\n")
+            # This writes the line in a way that allows the Load function to read them properly. Because that info is all on one line.
+            fid.write(line)
+    print("Data saved successfully.")
    
 def add_car():
     # Adds cars to a directory, based off the class system above
     id = int(input("Enter id of the car, followed by the car's information.\nID:\n"))
-    #this will break if not given a number for an input
     if id in cars: #prevents user from using the same ID to create multiple cars.
         print("Incorrect ID. ID already exists in the system")
         return
@@ -99,41 +119,7 @@ def add_car():
     print("Car added to inventory.") #user confirmation in two parts, telling the user that its added and showing the user the new addition
     display_specific(id) #Shows the car that was just added 
     save_info() # Automatically saves that info to the file 
- 
-def display_all():
-    #for displaying all the cars in the save file
-    if not cars:
-        print("No cars are currently saved in the inventory.")
-        return
-        # This just checks to see if there even is anything saved to the file first, before trying to display something
-    print("The current record of cars in the inventory are as follows:")
- # Loop through every car ID stored in the dictionary
-    for id, car in cars.items():
-        name = car._Car__name
-        make = car._Car__make
-        body = car._Car__body
-        year = car._Car__year
-        value = car._Car__value
-        # This should loop through all the cars on the file
-        print(f"ID: {id}, Name: {name} , Make: {make}, Body: {body}, Year: {year}, Value: {value}", sep = ",")
-        # I decided to change how the Information is formated,
- 
- 
-def display_specific(id):
-    # Make sure the ID exists before displaying
-    if id not in cars:
-        print("Car not found.")
-        return
-    name = cars[id]._Car__name
-    make = cars[id]._Car__make
-    body = cars[id]._Car__body
-    year = cars[id]._Car__year
-    value = cars[id]._Car__value
- 
-    # Display the car info clearly
-    print(f"Car ID: {id}", f"Name: {name}", f"Make: {make}", f"Body: {body}", f"Year: {year}", f"Value: {value}", sep = ", ")
- 
- 
+
 def ID_search(id):
     # Searches for a car based off of its ID
     if id in cars:
@@ -145,7 +131,7 @@ def ID_search(id):
 def Name_search():
     #Searches for a car based off its name. 
     name = input("Enter the car name:\n").lower()
-    # We use Strip and lower to make sure its an easy comparision for the file. same reason we use lower in the call function below as well
+    # We use lower to make sure its an easy comparision for the file
     for id, car in cars.items():
         if (car._Car__name.lower() == name):
             print("Car found")
@@ -187,28 +173,34 @@ def edit_car():
     display_specific(id)
     save_info()
     # Saves the info to the file automatically. just to update the information. Keeps the file consistent for what is stored in there and the program that is currently running
- 
-def save_info():
-    with open("Saved_cars.txt", "w") as fid:
-        # Choosing to write and not append. So that everytime we save the info, it updates the whole file, instead of just adding it to the bottom.
-        for id in cars:
-            line = (f"{id}|"f"{cars[id]._Car__name}|"f"{cars[id]._Car__make}|"f"{cars[id]._Car__body}|"f"{cars[id]._Car__year}|"f"{cars[id]._Car__value}\n")
-            # This writes the line in a way that allows the Load function to read them properly. Because that info is all on one line.
-            fid.write(line)
-    print("Data saved successfully.")
-   
-def load():
-    cars.clear()
-    #We use this to clear the current memory (As in the program that just opened) and clears its cache, before loading all the info from the file. helps to prevent duplicates if we are constanly starting/stopping the program
-    #This doesnt actually delete/remove anything from the file though. just a way to prevent possible error/duplications. 
-    try:
-        with open("Saved_cars.txt", "r") as fid: # We want to read the file and take that data, so we use "r"
-        # Using with makes it so we dont have to open and close the file, it does it automatically.
-            for line in fid: # Since we are saving each car to one line. each line represents one car. This should loop through each line and take the data that is required.
-                id, name, make, body, year, value = line.strip().split("|") # This takes the data and splits it with the |. so its easy to ready the file and keep the information seperate. Which is why we need to strip that info when we try to interpret that information in the functuons above.
-                cars[int(id)] = Car(id, name, make, body, year, value)
-            # The file should automatically add these to the private attributes.
-            # made id an int because thats how we have been making it a key for our dictionary
-        print("Car data loaded successfully.")
-    except FileNotFoundError:
-        print("No saved data found. Starting with an empty system.")
+
+def display_all():
+    #for displaying all the cars in the save file
+    if not cars:
+        print("No cars are currently saved in the inventory.")
+        return
+        # This just checks to see if there even is anything saved to the file first, before trying to display something
+    print("The current record of cars in the inventory are as follows:")
+ # Loop through every car ID stored in the dictionary
+    for id, car in cars.items():
+        name = car._Car__name
+        make = car._Car__make
+        body = car._Car__body
+        year = car._Car__year
+        value = car._Car__value
+        # This should loop through all the cars on the file
+        print(f"ID: {id}, Name: {name} , Make: {make}, Body: {body}, Year: {year}, Value: {value}", sep = ",")
+        # I decided to change how the Information is formated,
+
+def display_specific(id):
+    # Make sure the ID exists before displaying
+    if id not in cars:
+        print("Car not found.")
+        return
+    name = cars[id]._Car__name
+    make = cars[id]._Car__make
+    body = cars[id]._Car__body
+    year = cars[id]._Car__year
+    value = cars[id]._Car__value
+    # Display the car info clearly
+    print(f"Car ID: {id}", f"Name: {name}", f"Make: {make}", f"Body: {body}", f"Year: {year}", f"Value: {value}", sep = ", ")
